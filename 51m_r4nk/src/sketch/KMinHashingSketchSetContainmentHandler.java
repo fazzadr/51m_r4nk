@@ -15,7 +15,7 @@ public class KMinHashingSketchSetContainmentHandler {
 				index_of_sketch_for_smaller_original_set = i;
 			}
 			i++;
-		}
+		} 
 		// swap 
 		KMinHashingSketchSetContainment temp = sketches[index_of_sketch_for_smaller_original_set];
 		sketches[index_of_sketch_for_smaller_original_set] = sketches[0];

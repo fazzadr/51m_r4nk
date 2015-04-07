@@ -11,7 +11,7 @@ public class KMinHashingSketchSetContainment {
 	protected int 		m;
 	protected long[] 	sketch;
 	protected long 		original_set_size;
-	
+	 
 	
 	/*public KMinHashingSketchSetContainment(Set<Long> set, HashMap<Long, Long> permutation, int m) {
 		this.m = m;
