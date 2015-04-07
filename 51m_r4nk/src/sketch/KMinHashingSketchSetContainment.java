@@ -10,6 +10,7 @@ public class KMinHashingSketchSetContainment {
 	protected static final int default_value_for_m = 2;
 	protected int 		m;
 	protected long[] 	sketch;
+	protected long 		original_set_size;
 	
 	
 	/*public KMinHashingSketchSetContainment(Set<Long> set, HashMap<Long, Long> permutation, int m) {
@@ -27,8 +28,9 @@ public class KMinHashingSketchSetContainment {
 		System.arraycopy(list_of_elements, 0, this.sketch, 0, i);
 		Arrays.sort(this.sketch);
 	}*/
-	public KMinHashingSketchSetContainment(Set<Long> set, PermutationBiggestBasket permutation, int m) {
+	public KMinHashingSketchSetContainment(Set<Long> set, PermutationBiggestBasket permutation, int m, long original_set_size) {
 		this.m = m;
+		this.original_set_size = original_set_size;
 		long[] list_of_elements = new long[set.size()];
 		int i = 0;
 		long c_permutation_value = -1;

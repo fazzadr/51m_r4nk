@@ -56,11 +56,11 @@ public class IntersectionEstimation {
 		//HashMap<Long, Long> current_permutation = PermutedMinHashSketch.createAPermutationOfUniverseSetOfElements(universe_set);
 		
 		KMinHashingSketchSetContainment sk_5 = new KMinHashingSketchSetContainment(
-				set_5, current_permutation, m);
+				set_5, current_permutation, m, set_5.size());
 		KMinHashingSketchSetContainment sk_3 = new KMinHashingSketchSetContainment(
-				set_3, current_permutation, m);
+				set_3, current_permutation, m, set_3.size());
 		KMinHashingSketchSetContainment sk_2 = new KMinHashingSketchSetContainment(
-				set_2, current_permutation, m);
+				set_2, current_permutation, m, set_2.size());
 
 		// KMinHashingSketchSetContainment[] sketches = new
 		// KMinHashingSketchSetContainment[2];
@@ -117,13 +117,17 @@ public class IntersectionEstimation {
 		//IntersectionEstimation.test_KMinHashingSketchSetContainment();
 		//if (args.length > -1) return;
 
+		
+		//String output_common_path = "/home/simone/Scrivania"; 
+		String output_common_path = "/Users/ikki/Dropbox/PHD/similarity_ranking/set_intersection/experiments/plots/2";
+		
 		String timeStamp = new SimpleDateFormat("yyyy_MM_dd__HH_mm_ss")
 				.format(Calendar.getInstance().getTime());
 		System.out.println(timeStamp);
 		CSVWriter writer = new CSVWriter(new FileWriter(
-				"/home/simone/Scrivania/results_" + timeStamp + ".csv"), ';');
+				output_common_path + "/" + "results_" + timeStamp + ".csv"), ';');
 		CSVWriter writer_2 = new CSVWriter(new FileWriter(
-				"/home/simone/Scrivania/results_essential_" + timeStamp
+				output_common_path + "/" + "results_essential_" + timeStamp
 						+ ".csv"), ';');
 		
 		 /*int max_samples = 100; 
@@ -640,15 +644,13 @@ public class IntersectionEstimation {
 					k_minhash_sketches[set_index] = new KMinHashingSketch(
 							all_sets.get(set_index), current_permutation,
 							sketches_size);
+					
+					k_minhash_sketches_set_containment[set_index] = new KMinHashingSketchSetContainment(all_sets.get(set_index), current_permutation, 32, all_sets.get(set_index).size());
 				}
 			}
 		}
 		
-		for(int i=0; i<all_sets.size(); i++){
-			current_permutation = new PermutationBiggestBasket(universe_set);
-			current_permutation.permute();
-			k_minhash_sketches_set_containment[i] = new KMinHashingSketchSetContainment(all_sets.get(i), current_permutation, 2);
-		}
+		
 		
 		MoreHashFunctionsMinHashSketchHandler more_minhash_handler = new MoreHashFunctionsMinHashSketchHandler();
 		KMinHashingSketchHandler k_minhash_handler = new KMinHashingSketchHandler();
@@ -715,12 +717,9 @@ public class IntersectionEstimation {
 				.getMultipleContainmentSimilarity(k_minhash_sketches_set_containment)
 				* (double) k_minhash_sketches_set_containment[0].getLength());
 		*/
-		double a =  k_minhash_set_containment_handler
-				.getMultipleContainmentSimilarity(k_minhash_sketches_set_containment);
-		double b = k_minhash_sketches_set_containment[0].getLength();
-		double ab = a*b;
-		measure_value.put("appx |INT| k_minHash_set_containment", ab);
-		System.out.println(a+" "+b+" "+ab);
+		double int_from_containment =  k_minhash_set_containment_handler
+				.getIntersectionCardinality(k_minhash_sketches_set_containment);
+		measure_value.put("appx |INT| k_minHash_set_containment", int_from_containment);
 		return measure_value;
 	}
 
