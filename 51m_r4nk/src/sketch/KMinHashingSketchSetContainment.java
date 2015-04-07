@@ -10,7 +10,7 @@ public class KMinHashingSketchSetContainment {
 	protected static final int default_value_for_m = 2;
 	protected int 		m;
 	protected long[] 	sketch;
-	protected long 		original_set_size;
+	protected long 		original_set_size; 
 	 
 	
 	/*public KMinHashingSketchSetContainment(Set<Long> set, HashMap<Long, Long> permutation, int m) {

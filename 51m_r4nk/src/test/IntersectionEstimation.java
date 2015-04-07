@@ -646,7 +646,7 @@ public class IntersectionEstimation {
 							sketches_size);
 					 
 					k_minhash_sketches_set_containment[set_index] = new KMinHashingSketchSetContainment(all_sets.get(set_index), current_permutation, 32, all_sets.get(set_index).size());
-				}
+				} 
 			}
 		}
 		
