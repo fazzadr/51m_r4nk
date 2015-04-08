@@ -142,8 +142,9 @@ public class IntersectionEstimation {
 		
 
 		int max_samples = 10;
-		int max_repetitions = 7;
+		int max_repetitions = 11;
 		int sketches_size = 50;
+		int m = 8; // m for sketch containment.
 		int intersection_size = 100;
 		int[] sets_sizes = { 1000, 900, 800, 700, 600, 500, 400, 300 };
 		int max_int_value = 10000;
@@ -291,7 +292,7 @@ public class IntersectionEstimation {
 				System.out.println("sample/repetition " + sample + " "
 						+ repetition);
 				LinkedHashMap<String, Double> set_int_appx = IntersectionEstimation
-						.workOnSinglesSets(all_sets, sketches_size,
+						.workOnSinglesSets(all_sets, sketches_size, m, 
 								universe_set_array, union_set, bigger_cardinality);
 				LinkedHashMap<String, Double> set_int_appx_with_couples = IntersectionEstimation
 						.workOnSinglesIntersectionsOfCouplesOfSets(all_sets,
@@ -610,7 +611,7 @@ public class IntersectionEstimation {
 	}
 
 	protected static LinkedHashMap<String, Double> workOnSinglesSets(
-			List<Set<Long>> all_sets, int sketches_size,
+			List<Set<Long>> all_sets, int sketches_size, int m, 
 			long[] universe_set, Set<Long> union_set, int bigger_cardinality) {
 
 		LinkedHashMap<String, Double> measure_value = new LinkedHashMap<String, Double>();
@@ -645,7 +646,7 @@ public class IntersectionEstimation {
 							all_sets.get(set_index), current_permutation,
 							sketches_size);
 					 
-					k_minhash_sketches_set_containment[set_index] = new KMinHashingSketchSetContainment(all_sets.get(set_index), current_permutation, 32, all_sets.get(set_index).size());
+					k_minhash_sketches_set_containment[set_index] = new KMinHashingSketchSetContainment(all_sets.get(set_index), current_permutation, m, all_sets.get(set_index).size());
 				} 
 			}
 		}
