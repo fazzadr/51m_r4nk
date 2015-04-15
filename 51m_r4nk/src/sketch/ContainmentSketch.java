@@ -5,7 +5,7 @@ import java.util.Set;
 
 import tools.PermutationBiggestBasket;
 
-public class KMinHashingSketchSetContainment {
+public class ContainmentSketch {
 
 	protected static final int default_value_for_m = 2;
 	protected int 		m;
@@ -28,7 +28,7 @@ public class KMinHashingSketchSetContainment {
 		System.arraycopy(list_of_elements, 0, this.sketch, 0, i);
 		Arrays.sort(this.sketch);
 	}*/
-	public KMinHashingSketchSetContainment(Set<Long> set, PermutationBiggestBasket permutation, int m, long original_set_size) {
+	public ContainmentSketch(Set<Long> set, PermutationBiggestBasket permutation, int m, long original_set_size) {
 		this.m = m;
 		this.original_set_size = original_set_size;
 		long[] list_of_elements = new long[set.size()];
@@ -47,7 +47,7 @@ public class KMinHashingSketchSetContainment {
 	}
 	
 	
-	public KMinHashingSketchSetContainment(long[] sketch, int m) {
+	public ContainmentSketch(long[] sketch, int m) {
 		this.m = m;
 		this.sketch = sketch;
 	}

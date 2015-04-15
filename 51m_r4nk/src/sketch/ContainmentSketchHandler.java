@@ -2,14 +2,14 @@ package sketch;
 
 import java.util.LinkedHashMap;
 
-public class KMinHashingSketchSetContainmentHandler {
+public class ContainmentSketchHandler {
 	
 	
-	public double getIntersectionCardinality(KMinHashingSketchSetContainment[] sketches) {
+	public double getIntersectionCardinality(ContainmentSketch[] sketches) {
 		int index_of_sketch_for_smaller_original_set = 0;
 		long min_set_size = sketches[index_of_sketch_for_smaller_original_set].original_set_size;
 		int i = 0;
-		for (KMinHashingSketchSetContainment sk : sketches) {
+		for (ContainmentSketch sk : sketches) {
 			if (sk.original_set_size < min_set_size) {
 				min_set_size = sk.original_set_size; 
 				index_of_sketch_for_smaller_original_set = i;
@@ -17,7 +17,7 @@ public class KMinHashingSketchSetContainmentHandler {
 			i++;
 		} 
 		// swap 
-		KMinHashingSketchSetContainment temp = sketches[index_of_sketch_for_smaller_original_set];
+		ContainmentSketch temp = sketches[index_of_sketch_for_smaller_original_set];
 		sketches[index_of_sketch_for_smaller_original_set] = sketches[0];
 		sketches[0] = temp;
 		
@@ -25,18 +25,18 @@ public class KMinHashingSketchSetContainmentHandler {
 	}
 	
 	public double getMultipleContainmentSimilarity(
-			KMinHashingSketchSetContainment[] sketches) {
+			ContainmentSketch[] sketches) {
 		// MUST TO BE CHANGED!!!
 		int num_common_elements = 0;
 		int i = 0;
 		Long element = null;
 		int sum_of_lengths = 0;
-		for (KMinHashingSketchSetContainment sk : sketches) {
+		for (ContainmentSketch sk : sketches) {
 			sum_of_lengths += sk.getLength();
 		}
 		LinkedHashMap<Long, Integer> element_num_sets = new LinkedHashMap<Long, Integer>(
 				sum_of_lengths);
-		for (KMinHashingSketchSetContainment sk : sketches) {
+		for (ContainmentSketch sk : sketches) {
 			for (i = 0; i < sk.sketch.length; i++) {
 				element = sk.sketch[i];
 				element_num_sets.put(element,
@@ -50,7 +50,7 @@ public class KMinHashingSketchSetContainmentHandler {
 		return (double) num_common_elements / (double) sketches[0].getLength();
 	}
 	
-	public  KMinHashingSketchSetContainment mergeSketches(
+	public  ContainmentSketch mergeSketches(
 			MinHashingSketch[] sketches) {
 		// This is interesting for "OR" queries...
 		return null;

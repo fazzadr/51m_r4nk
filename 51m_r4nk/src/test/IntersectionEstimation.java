@@ -16,8 +16,8 @@ import java.util.TreeSet;
 import au.com.bytecode.opencsv.CSVWriter;
 import sketch.KMinHashingSketch;
 import sketch.KMinHashingSketchHandler;
-import sketch.KMinHashingSketchSetContainment;
-import sketch.KMinHashingSketchSetContainmentHandler;
+import sketch.ContainmentSketch;
+import sketch.ContainmentSketchHandler;
 import sketch.MinHashingSketch;
 import sketch.MoreHashFunctionsMinHashSketchHandler;
 import sketch.PermutedMinHashSketch;
@@ -55,17 +55,17 @@ public class IntersectionEstimation {
 		PermutationBiggestBasket current_permutation = new PermutationBiggestBasket(array_to_permute);
 		//HashMap<Long, Long> current_permutation = PermutedMinHashSketch.createAPermutationOfUniverseSetOfElements(universe_set);
 		
-		KMinHashingSketchSetContainment sk_5 = new KMinHashingSketchSetContainment(
+		ContainmentSketch sk_5 = new ContainmentSketch(
 				set_5, current_permutation, m, set_5.size());
-		KMinHashingSketchSetContainment sk_3 = new KMinHashingSketchSetContainment(
+		ContainmentSketch sk_3 = new ContainmentSketch(
 				set_3, current_permutation, m, set_3.size());
-		KMinHashingSketchSetContainment sk_2 = new KMinHashingSketchSetContainment(
+		ContainmentSketch sk_2 = new ContainmentSketch(
 				set_2, current_permutation, m, set_2.size());
 
 		// KMinHashingSketchSetContainment[] sketches = new
 		// KMinHashingSketchSetContainment[2];
-		KMinHashingSketchSetContainment[] sketches = { sk_5, sk_3, sk_2 };
-		KMinHashingSketchSetContainmentHandler k_set_containment_handler = new KMinHashingSketchSetContainmentHandler();
+		ContainmentSketch[] sketches = { sk_5, sk_3, sk_2 };
+		ContainmentSketchHandler k_set_containment_handler = new ContainmentSketchHandler();
 		double appx_containment = k_set_containment_handler.getMultipleContainmentSimilarity(sketches);
 
 		System.out.println(" set_5.size()= " + set_5.size());
@@ -599,14 +599,25 @@ public class IntersectionEstimation {
 	}
 
 	protected static double getAverageMedian(ArrayList<Integer> values) {
-		if(values.size()%2 == 1){
-			return getMedian(values);
+		if(values.size()==1){
+			return values.get(0);
 		}
+		
 		Collections.sort(values);
-		double avg = (double) values.get(values.size() / 2)
-				+ values.get(values.size() / 2 - 1);
-		avg = avg / 2;
-		return avg;
+		if(values.size()%2 == 1){
+			double avg = (double) values.get(values.size() / 2) + 
+					values.get(values.size() / 2 + 1) + 
+					values.get(values.size() / 2 - 1);
+			avg = avg / 3;
+			return avg;
+		}else{
+			
+			double avg = (double) values.get(values.size() / 2)
+					+ values.get(values.size() / 2 - 1);
+			avg = avg / 2;
+			return avg;
+		}
+		
 
 	}
 
@@ -621,7 +632,7 @@ public class IntersectionEstimation {
 		
 		KMinHashingSketch[] k_minhash_sketches = new KMinHashingSketch[all_sets
 				.size()];
-		KMinHashingSketchSetContainment[] k_minhash_sketches_set_containment = new KMinHashingSketchSetContainment[all_sets.size()];
+		ContainmentSketch[] k_minhash_sketches_set_containment = new ContainmentSketch[all_sets.size()];
 		
 		long[] min_max = { 0, 0 };
 		PermutationBiggestBasket current_permutation; 
@@ -646,7 +657,7 @@ public class IntersectionEstimation {
 							all_sets.get(set_index), current_permutation,
 							sketches_size);
 					 
-					k_minhash_sketches_set_containment[set_index] = new KMinHashingSketchSetContainment(all_sets.get(set_index), current_permutation, m, all_sets.get(set_index).size());
+					k_minhash_sketches_set_containment[set_index] = new ContainmentSketch(all_sets.get(set_index), current_permutation, m, all_sets.get(set_index).size());
 				} 
 			}
 		}
@@ -655,7 +666,7 @@ public class IntersectionEstimation {
 		
 		MoreHashFunctionsMinHashSketchHandler more_minhash_handler = new MoreHashFunctionsMinHashSketchHandler();
 		KMinHashingSketchHandler k_minhash_handler = new KMinHashingSketchHandler();
-		KMinHashingSketchSetContainmentHandler k_minhash_set_containment_handler = new KMinHashingSketchSetContainmentHandler();		
+		ContainmentSketchHandler k_minhash_set_containment_handler = new ContainmentSketchHandler();		
 		// System.out.println();
 
 		MinHashingSketch[] minhash_sketches = new MinHashingSketch[all_sets
@@ -749,7 +760,7 @@ public class IntersectionEstimation {
 
 		MoreHashFunctionsMinHashSketchHandler more_minhash_handler = new MoreHashFunctionsMinHashSketchHandler();
 		KMinHashingSketchHandler k_minhash_handler = new KMinHashingSketchHandler();
-		KMinHashingSketchSetContainmentHandler k_minhash_set_containment_handler = new KMinHashingSketchSetContainmentHandler();
+		ContainmentSketchHandler k_minhash_set_containment_handler = new ContainmentSketchHandler();
 		
 		long[][] raw_minhash_sketches = new long[all_sets.size()][sketches_size];
 		long[][] raw_minMaxhash_sketches = new long[all_sets.size()][sketches_size];
