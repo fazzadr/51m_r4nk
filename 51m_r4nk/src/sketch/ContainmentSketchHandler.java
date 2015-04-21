@@ -4,7 +4,10 @@ import java.util.LinkedHashMap;
 
 public class ContainmentSketchHandler {
 	
-	
+	/* 
+	 * this method does side effect on the input array:
+	 * the first element is swapped with the element that represents the smaller set	 * 
+	 */
 	public double getIntersectionCardinality(ContainmentSketch[] sketches) {
 		int index_of_sketch_for_smaller_original_set = 0;
 		long min_set_size = sketches[index_of_sketch_for_smaller_original_set].original_set_size;

@@ -3,6 +3,31 @@ package sketch;
 import java.util.LinkedHashMap;
 
 public class KMinHashingSketchHandler {
+	
+	/* 
+	 * this method does side effect on the input array:
+	 * the first element is swapped with the element that represents the biggest set	 * 
+	 */
+	public double getIntersectionCardinality(KMinHashingSketch[] sketches) {
+		int index_of_sketch_for_superset = 0;
+		long max_set_size = sketches[index_of_sketch_for_superset].original_set_size;
+		int i = 0;
+		for (KMinHashingSketch sk : sketches) {
+			if (sk.original_set_size > max_set_size) {
+				max_set_size = sk.original_set_size; 
+				index_of_sketch_for_superset = i;
+			}
+			i++;
+		} 
+		// swap 
+		KMinHashingSketch temp = sketches[index_of_sketch_for_superset];
+		sketches[index_of_sketch_for_superset] = sketches[0];
+		sketches[0] = temp;
+		
+		return this.getMultipleJaccardSimilarity(sketches) * max_set_size;
+	}
+	
+	
 	public double getMultipleJaccardSimilarity(MinHashingSketch[] sketches) {
 		// MUST TO BE CHANGED!!!
 		int num_common_elements = 0;
