@@ -35,7 +35,13 @@ public class MoreHashFunctionsMinHashSketchHandler {
 					min = sketches[i].sketch[j];
 			merged_sketch[j] = min;
 		}
-		return new MoreHashFunctionsMinHashSketch(merged_sketch, k);
+		
+		/*
+		 * 
+		 * TODO
+		 * -1 perchè essendo merge non so dimensione. va bene????
+		 */
+		return new MoreHashFunctionsMinHashSketch(merged_sketch, k, -1);
 	}
 
 }

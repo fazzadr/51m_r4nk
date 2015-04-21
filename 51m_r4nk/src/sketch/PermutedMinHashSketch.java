@@ -12,8 +12,8 @@ public class PermutedMinHashSketch extends MoreHashFunctionsMinHashSketch {
 
 	protected static Random r = new Random();
 
-	public PermutedMinHashSketch(long[] sketch) {
-		super(sketch, sketch.length);
+	public PermutedMinHashSketch(long[] sketch, long original_set_size) {
+		super(sketch, sketch.length, original_set_size);
 	}
 
 	public static HashMap<Long, Long> createAPermutationOfUniverseSetOfElements(

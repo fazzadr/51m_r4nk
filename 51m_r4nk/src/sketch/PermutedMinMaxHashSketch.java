@@ -6,8 +6,8 @@ import tools.PermutationBiggestBasket;
 
 public class PermutedMinMaxHashSketch extends PermutedMinHashSketch {
 
-	public PermutedMinMaxHashSketch(long[] sketch) {
-		super(sketch);
+	public PermutedMinMaxHashSketch(long[] sketch, long original_set_size) {
+		super(sketch, original_set_size);
 	}
 	
 	

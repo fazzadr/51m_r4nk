@@ -655,7 +655,7 @@ public class IntersectionEstimation {
 				if (perm == 0) {
 					k_minhash_sketches[set_index] = new KMinHashingSketch(
 							all_sets.get(set_index), current_permutation,
-							sketches_size);
+							sketches_size, all_sets.get(set_index).size());
 					 
 					k_minhash_sketches_set_containment[set_index] = new ContainmentSketch(all_sets.get(set_index), current_permutation, m, all_sets.get(set_index).size());
 				} 
@@ -673,7 +673,7 @@ public class IntersectionEstimation {
 				.size()];
 		for (int perm = 0; perm < raw_minhash_sketches.length; perm++) {
 			minhash_sketches[perm] = new PermutedMinHashSketch(
-					raw_minhash_sketches[perm]);
+					raw_minhash_sketches[perm], all_sets.get(perm).size());
 			// System.out.println(minhash_sketches[perm]);
 		}
 		// System.out.println(" APPX jaccard= " +
@@ -693,7 +693,7 @@ public class IntersectionEstimation {
 				.size()];
 		for (int perm = 0; perm < raw_minhash_sketches.length; perm++) {
 			minMaxhash_sketches[perm] = new PermutedMinMaxHashSketch(
-					raw_minMaxhash_sketches[perm]);
+					raw_minMaxhash_sketches[perm], all_sets.get(perm).size());
 			// System.out.println(minMaxhash_sketches[perm]);
 		}
 		// System.out.println(" APPX jaccard= " +
@@ -769,7 +769,7 @@ public class IntersectionEstimation {
 		long[] min_max = { 0, 0 };
 		PermutationBiggestBasket current_permutation;
 		//HashMap<Long, Long> current_permutation;
-		Set<Long> intersecion_set = null;
+		Set<Long> intersection_set = null;
 		Set<Long> union_set = new LinkedHashSet<Long>();
 		int bigger_cardinality = 0;
 		for (int perm = 0; perm < sketches_size; perm++) {
@@ -777,29 +777,29 @@ public class IntersectionEstimation {
 
 			for (int set_index = 0; set_index < all_sets.size(); set_index++) {
 
-				intersecion_set = (set_index == smaller_set_index ? smaller_set
+				intersection_set = (set_index == smaller_set_index ? smaller_set
 						: IntersectionEstimation.getIntersectionSet(
 								smaller_set, all_sets.get(set_index)));
 
-				if (intersecion_set.size() <= sketches_size) {
+				if (intersection_set.size() <= sketches_size) {
 					System.out.println("intersecion_set.size(): "
-							+ intersecion_set.size());
+							+ intersection_set.size());
 				}
 
 				if (set_index != smaller_set_index) {
-					union_set.addAll(intersecion_set);
-					if (intersecion_set.size() > bigger_cardinality) {
-						bigger_cardinality = intersecion_set.size();
+					union_set.addAll(intersection_set);
+					if (intersection_set.size() > bigger_cardinality) {
+						bigger_cardinality = intersection_set.size();
 					}
 					if (perm == 0) {
 						k_minhash_sketches.add(new KMinHashingSketch(
-								intersecion_set, current_permutation,
-								sketches_size));
+								intersection_set, current_permutation,
+								sketches_size, intersection_set.size()));
 					}
 				}
 
 				min_max = PermutedMinMaxHashSketch.getMinMaxHashValue(
-						intersecion_set, current_permutation);
+						intersection_set, current_permutation);
 				raw_minhash_sketches[set_index][perm] = min_max[0];
 
 				if (perm < sketches_size / 2) {
@@ -814,7 +814,7 @@ public class IntersectionEstimation {
 		MinHashingSketch[] minhash_sketches = new MinHashingSketch[raw_minhash_sketches.length];
 		for (int perm = 0; perm < raw_minhash_sketches.length; perm++) {
 			minhash_sketches[perm] = new PermutedMinHashSketch(
-					raw_minhash_sketches[perm]);
+					raw_minhash_sketches[perm], all_sets.get(perm).size());
 			// System.out.println(minhash_sketches[perm]);
 		}
 		// System.out.println(" APPX jaccard= " +
@@ -856,7 +856,7 @@ public class IntersectionEstimation {
 		MinHashingSketch[] minMaxhash_sketches = new MinHashingSketch[raw_minMaxhash_sketches.length];
 		for (int perm = 0; perm < minMaxhash_sketches.length; perm++) {
 			minMaxhash_sketches[perm] = new PermutedMinMaxHashSketch(
-					raw_minMaxhash_sketches[perm]);
+					raw_minMaxhash_sketches[perm], all_sets.get(perm).size());
 			// System.out.println(minMaxhash_sketches[perm]);
 		}
 		// System.out.println(" APPX jaccard= " +

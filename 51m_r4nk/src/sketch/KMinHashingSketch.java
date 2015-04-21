@@ -12,8 +12,9 @@ public class KMinHashingSketch extends MinHashingSketch {
 	}
 	
 	public KMinHashingSketch(Set<Long> set, PermutationBiggestBasket permutation,
-			int sketch_length) {
+			int sketch_length, long original_set_size) {
 		this.max_length = sketch_length;
+		this.original_set_size = original_set_size;
 		this.sketch = new long[(int) Math.min(sketch_length, set.size())];
 		int i = 0;
 		long[] list_of_elements = new long[set.size()];
